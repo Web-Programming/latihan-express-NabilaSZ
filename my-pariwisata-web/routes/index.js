@@ -18,4 +18,4 @@ router.get('orderdetail', function(req, res, next) {
   res.render('orderdetail', { title: 'Detail Package' });
 });
 
-module.exports = router;
+module.exports = router
