@@ -4,13 +4,23 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+<<<<<<< HEAD
+=======
+//load.mongodb db connection
+require('./app_server/models/db');
+
+>>>>>>> 2ec82254e836b0dae13d9b202959aedc1c8b0171
 var indexRouter = require('./app_server/routes/index');
 var usersRouter = require('./app_server/routes/users');
 
 var app = express();
 
 // view engine setup
+<<<<<<< HEAD
 app.set('views', path.join(__dirname,'app_server', 'views'));
+=======
+app.set('views', path.join(__dirname, 'app_server', 'views'));
+>>>>>>> 2ec82254e836b0dae13d9b202959aedc1c8b0171
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
