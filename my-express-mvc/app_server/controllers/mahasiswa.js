@@ -1,141 +1,30 @@
-const mongoose = require("mongoose");
-const Mahasiswa = mongoose.model("Mahasiswa");
+const Mahasiswa = require('../models/mahasiswa');
 
-//untuk menghandle request get all mahasiswa
-const index = (req, res, next) => {
-    Mahasiswa.find({}, { __v: 0 })
-      .then((mhs) => {
-        const responseMessage = {
-            code: 200,
-            success: true,
-            message: "Successfull",
-            data: mhs
-        };
-        res.status(200).json(responseMessage);
-      })
-      .catch((e) => {
-        const responseMessage = {
-            code: 400,
-            success: false,
-            message: "Bad request"
-        };
-        res.status(400).json(responseMessage);
-      });
+exports.index = async (req, res) => {
+    const mahasiswa = await Mahasiswa.find();
+    res.json(mahasiswa);
 };
 
-//untuk menghandle request insert mahasiswa
-const insert = (req, res, next) => {
-    const mhs = new Mahasiswa({
-      nama: req.body.nama,
-      npm: req.body.npm,
-      email: req.body.email,
-      tanggal_lahir: req.body.tanggal_lahir,
-      aktif: true
-    });
-  
-    mhs
-      .save()
-      .then((result) => {
-            const responseMessage = {
-                code: 200,
-                success: true,
-                message: "Successfull",
-                data: result
-            };
-            res.status(200).json(responseMessage);
-        })
-        .catch((e) => {
-            const responseMessage = {
-                code: 400,
-                success: true,
-                message: "Bad request"
-            };
-            res.status(400).json(responseMessage);
-        });
+exports.insert = async (req, res) => {
+    const newMahasiswa = new Mahasiswa(req.body);
+    await newMahasiswa.save();
+    res.status(201).json(newMahasiswa);
 };
 
-//untuk menghandle request update mahasiswa
-const update = (req, res, next) => {
-     Mahasiswa
-       .findByIdAndUpdate(req.params.id,{
-            nama: req.body.nama,
-            npm: req.body.npm,
-            email: req.body.email,
-            tanggal_lahir: req.body.tanggal_lahir,
-         })
-        .then((result) => {
-            Mahasiswa
-            .findById(req.params.id)
-            .then((mhs) =>{
-                const responseMessage = {
-                    code: 200,
-                    success: true,
-                    message: "Successfull",
-                    data: mhs
-                };
-                res.status(200).json(responseMessage);
-            });        
-        })
-        .catch((e) => {
-            const responseMessage = {
-                code: 404,
-                success: false,
-                message: "ID " + req.params.id + " Not Found",
-                error: e
-            };
-            res.status(404).json(responseMessage);
-        });
+exports.update = async (req, res) => {
+    const { id } = req.params;
+    const updatedMahasiswa = await Mahasiswa.findByIdAndUpdate(id, req.body, { new: true });
+    res.json(updatedMahasiswa);
 };
 
-//untuk menghandle request show detail
-const show = (req, res, next) => {
-    Mahasiswa
-        .findById(req.params.id)
-        .then((mhs) =>{
-            const responseMessage = {
-                code: 200,
-                success: true,
-                message: "Successfull",
-                data: todo
-            };
-            res.status(200).json(responseMessage);
-        })
-        .catch((e) => {
-            const responseMessage = {
-                code: 404,
-                success: false,
-                message: "ID " + req.params.id + " Not Found",
-            };
-            res.status(404).json(responseMessage);
-        });
+exports.show = async (req, res) => {
+    const { id } = req.params;
+    const mahasiswa = await Mahasiswa.findById(id);
+    res.json(mahasiswa);
 };
 
-
-//untuk menghandle request delete
-const destroy = (req, res, next) => {
-    Mahasiswa
-        .findByIdAndDelete(req.params.id)
-        .then((mhs) => {
-            const responseMessage = {
-                code: 200,
-                success: true,
-                message: "Successfull",
-            };
-            res.status(200).json(responseMessage);
-        });
-        /*.catch((e) => {
-            const responseMessage = {
-                code: 404,
-                success: false,
-                message: "ID " + req.params.id + " Not Found",
-                error: e
-            };
-            res.status(404).json(responseMessage);
-        });*/
+exports.destroy = async (req, res) => {
+    const { id } = req.params;
+    await Mahasiswa.findByIdAndDelete(id);
+    res.status(204).send();
 };
-
-module.exports = {
-    index, insert, update, show, destroy
-}
-
- 

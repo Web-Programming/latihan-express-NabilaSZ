@@ -11,7 +11,7 @@ import { first } from 'rxjs';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-       <article >
+        <article >
       <img class="listing-photo" [src]="housingLocation?.photo"
         alt="Exterior photo of {{housingLocation?.name}}"/>
       <section class="listing-description">
@@ -26,13 +26,13 @@ import { first } from 'rxjs';
           <li>Does this location have laundry: {{housingLocation?.laundry}}</li>
         </ul>
       </section>
-      <section class = "listing-apply">
-        <h2 class="section-heading" > Aplly now to live here</h2>
-        <form [formGroup]="applyForm" (submit) = "submitApplication">
+      <section class="listing-apply">
+        <h2 class="section-heading">Apply now to live here</h2>
+        <form [formGroup]="applyForm" (submit) = "submitApplication()">
           <label for="first-name">First Name</label>
-          <input id="First-name" type = "text" formControlName="firstName">
-        <form>
-        </selection>
+          <input id="first-name" type="text" formControlName="firstName">
+        </form>
+      </section>
     </article>
   `,
   styleUrl: './details.component.css'
