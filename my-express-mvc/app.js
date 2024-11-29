@@ -1,3 +1,4 @@
+ require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -5,9 +6,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 //load mongodb db connection
 require('./app_server/models/db');
+require("./app_server/configs/pasports");
+
 
 var indexRouter = require('./app_server/routes/index');
-var usersRouter = require('./app_server/routes/users');
+var usersRouter = require('./app_server/routes/user');
 var mhsRouter = require("./app_server/routes/mahasiswa");
 var housingRouter = require('./app_server/routes/housing');
 
